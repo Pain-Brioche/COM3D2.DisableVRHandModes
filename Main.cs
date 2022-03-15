@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace COM3D2.DisableVRControllerModes
 {
-    [BepInPlugin("DisableVRControllerModes", "Disable VR Controller Modes", "0.3")]
+    [BepInPlugin("DisableVRControllerModes", "Disable VR Controller Modes", "1.0")]
     [BepInDependency("COM3D2.GUIAPI", BepInDependency.DependencyFlags.SoftDependency)]
     public class Main : BaseUnityPlugin
     {
@@ -19,9 +19,6 @@ namespace COM3D2.DisableVRControllerModes
         internal static ManualLogSource logger;
         private static OvrControllerBehavior2 ovrControllerBehavior2;
         private static ViveControllerBehavior2 viveControllerBehavior2;
-
-        //private static bool isYotogi = false;
-        //private static bool isDance = false;
 
         private void Awake()
         {
@@ -52,17 +49,7 @@ namespace COM3D2.DisableVRControllerModes
                 GUIAPIHandling gUIAPIHandling = new();
                 gUIAPIHandling.GUIAPIAwake();
             }
-
-            //SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
-        /*
-        private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
-        {
-            isYotogi = scene.buildIndex == 14;
-            isDance = FindObjectOfType<DanceMain>() != null;
-        }
-        */
 
         // Occulus 
         [HarmonyPatch(typeof(OvrControllerBehavior2), "Awake")]
@@ -87,6 +74,7 @@ namespace COM3D2.DisableVRControllerModes
 
         internal static void UpdateOculusHiddenModeArray()
         {
+            if (ovrControllerBehavior2 = null) { return; }
             ovrControllerBehavior2.m_bModeHide = GetHidenModesArray();
             if (debug.Value)
             {
@@ -105,6 +93,7 @@ namespace COM3D2.DisableVRControllerModes
 
         internal static void UpdateViveHiddenModeArray()
         {
+            if (viveControllerBehavior2 = null) { return; }
             viveControllerBehavior2.m_bModeHide = GetHidenModesArray();
             if (debug.Value)
             {
@@ -137,55 +126,5 @@ namespace COM3D2.DisableVRControllerModes
             };
             return hidenModesArray;
         }
-
-        /*
-        // Occulus Patching
-        [HarmonyPatch(typeof(OvrControllerBehavior2), "ChangeMode")]
-        [HarmonyPrefix]
-        public static void DisableCameraOculus(ref OvrControllerBehavior2.OvrControllerMode f_eNewMode)
-        {
-            if (debug.Value) { Main.logger.LogMessage($"New mode: {f_eNewMode}"); }
-
-            if (disableCamera.Value && f_eNewMode == OvrControllerBehavior2.OvrControllerMode.CAMERA)
-            {
-                if (isDance) { f_eNewMode = OvrControllerBehavior2.OvrControllerMode.DANCE; }
-                else { f_eNewMode = OvrControllerBehavior2.OvrControllerMode.ITEM; }
-            }
-
-            if (disableItem.Value && f_eNewMode == OvrControllerBehavior2.OvrControllerMode.ITEM)
-            {
-                if (isYotogi) { f_eNewMode = OvrControllerBehavior2.OvrControllerMode.YOTOGI; }
-                else { f_eNewMode = OvrControllerBehavior2.OvrControllerMode.HAND; }
-            }
-
-            if (debug.Value) { Main.logger.LogMessage($"New mode after change: {f_eNewMode}"); }
-        }
-       
-
-        // Vive Patching
-        [HarmonyPatch(typeof(ViveControllerBehavior2), "ChangeMode")]
-        [HarmonyPrefix]
-        public static void DisableCamera(ref ViveControllerBehavior2.OvrControllerMode f_eNewMode)
-        {
-            if (debug.Value) { Main.logger.LogMessage($"New mode: {f_eNewMode}"); }
-            if (disableCamera.Value)
-            {
-                if (f_eNewMode == ViveControllerBehavior2.OvrControllerMode.CAMERA)
-                {
-                    if (isDance) { f_eNewMode = ViveControllerBehavior2.OvrControllerMode.DANCE; }
-                    else { f_eNewMode = ViveControllerBehavior2.OvrControllerMode.ITEM; }
-                }
-            }
-            if (disableItem.Value)
-            {
-                if (f_eNewMode == ViveControllerBehavior2.OvrControllerMode.ITEM)
-                {
-                    if (isYotogi) { f_eNewMode = ViveControllerBehavior2.OvrControllerMode.YOTOGI; }
-                    else { f_eNewMode = ViveControllerBehavior2.OvrControllerMode.HAND; }
-                }
-            }
-            if (debug.Value) { Main.logger.LogMessage($"New mode after change: {f_eNewMode}"); }
-        }
-         */
     }
 }

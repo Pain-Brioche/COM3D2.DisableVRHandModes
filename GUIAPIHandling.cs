@@ -24,6 +24,8 @@ namespace COM3D2.DisableVRControllerModes
                 Main.disableItem.Value = nDisableItem.Value;
                 Main.disableDance.Value = nDisableDance.Value;
                 Main.logger.LogDebug($"Setting changed: Disable Camera {Main.disableCamera.Value}, Disable Item {Main.disableItem.Value}, Disable Dance {Main.disableDance.Value}");
+                Main.UpdateOculusHiddenModeArray();
+                Main.UpdateViveHiddenModeArray();
             }
         }
     }
