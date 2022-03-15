@@ -3,6 +3,7 @@ Allows you to disable Various Controller modes in VR, like the camera.
 
 ### How to install:
 Download and drop COM3D2.DisableVRControllerModes.dll in BepinEx\plugins\
+https://github.com/Pain-Brioche/COM3D2.DisableVRHandModes/releases
 
 ### How to use
 Simply edit DisableVRControllerModes.cfg in BepinEx\config to hide what you want
