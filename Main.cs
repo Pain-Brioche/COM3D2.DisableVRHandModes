@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace COM3D2.DisableVRControllerModes
 {
-    [BepInPlugin("DisableVRControllerModes", "Disable VR Controller Modes", "1.0")]
+    [BepInPlugin("DisableVRControllerModes", "Disable VR Controller Modes", "1.0.1")]
     [BepInDependency("COM3D2.GUIAPI", BepInDependency.DependencyFlags.SoftDependency)]
     public class Main : BaseUnityPlugin
     {
@@ -74,7 +74,7 @@ namespace COM3D2.DisableVRControllerModes
 
         internal static void UpdateOculusHiddenModeArray()
         {
-            if (ovrControllerBehavior2 = null) { return; }
+            if (ovrControllerBehavior2 == null) { return; }
             ovrControllerBehavior2.m_bModeHide = GetHidenModesArray();
             if (debug.Value)
             {
@@ -93,7 +93,7 @@ namespace COM3D2.DisableVRControllerModes
 
         internal static void UpdateViveHiddenModeArray()
         {
-            if (viveControllerBehavior2 = null) { return; }
+            if (viveControllerBehavior2 == null) { return; }
             viveControllerBehavior2.m_bModeHide = GetHidenModesArray();
             if (debug.Value)
             {
